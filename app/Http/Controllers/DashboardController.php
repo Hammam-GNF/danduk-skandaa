@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\IsAdmin;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    // public function index()
-    // {
-    //     $jumlahData = YourModel::count(); // Mengambil jumlah data dari database menggunakan model
+    public function dashboard()
+    {
+    return view('dashboard');
+    }
 
-    //     return view('dashboard', compact('jumlahData'));
-    // }
 }
