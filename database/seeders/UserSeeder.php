@@ -20,8 +20,8 @@ class UserSeeder extends Seeder
             'role_id' => 1,
         ]);
         User::create([
-            'username' => 'Guru',
-            'password' => Hash::make('Guru'),
+            'username' => 'Wakel',
+            'password' => Hash::make('Wakel'),
             'role_id' => 2,
         ]);
     }

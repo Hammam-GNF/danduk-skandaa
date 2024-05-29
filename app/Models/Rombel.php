@@ -8,15 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Rombel extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_rombel';
     protected $table = 'rombel';
-    protected $fillable = ['id','nama_rombel'];
+    protected $fillable = ['id_rombel'];
     protected $casts = [
-        'id' => 'string'
+        'id_rombel' => 'string'
     ];
 
     public function kelas()
     {
-        return $this->hasMany(Kelas::class, 'id', 'rombel_id');
+        return $this->hasMany(Kelas::class, 'rombel_id', 'id_rombel');
+    }
+    public function wakel()
+    {
+        return $this->hasMany(Wakel::class, 'nip', 'nip');
     }
 }

@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('rombel', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_rombel');
+            $table->string('id_rombel')->primary();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rombel');
+        //
     }
 };

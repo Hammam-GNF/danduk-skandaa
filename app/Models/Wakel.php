@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Jurusan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,7 +12,7 @@ class Wakel extends Model
     
     protected $primaryKey = 'nip';
     protected $table = 'wakel';
-    protected $fillable = ['nip', 'nama_wakel', 'jurusan_id', 'kelas_id'];
+    protected $fillable = ['nip', 'kelas_id', 'nama_wakel', 'jurusan_id', 'rombel_id'];
     protected $casts = [
         'nip' => 'string'
     ];
@@ -23,6 +24,7 @@ class Wakel extends Model
     
     public function kelas()
     {
-        return $this->belongsTo(Kelas::class, 'kelas_id', 'id');
+        return $this->belongsTo(Kelas::class, 'kelas_id', 'id_kelas');
     }
+    
 }

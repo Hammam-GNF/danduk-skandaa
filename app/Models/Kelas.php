@@ -11,9 +11,12 @@ use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Roman;
 class Kelas extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_kelas';
     protected $table = 'kelas';
-    protected $fillable = ['id','kelas_tingkat','rombel_id', 'jurusan_id'];
+    protected $fillable = ['id_kelas','kelas_tingkat', 'jurusan_id', 'rombel_id'];
+    protected $casts = [
+        'id_kelas' => 'string'
+    ];
     
     public function jurusan()
     {
@@ -22,17 +25,17 @@ class Kelas extends Model
     
     public function rombel()
     {
-        return $this->belongsTo(Rombel::class, 'rombel_id', 'id');
+        return $this->belongsTo(Rombel::class, 'rombel_id', 'id_rombel');
     }
 
     public function wakel()
     {
-        return $this->hasMany(Wakel::class, 'kelas_id', 'id');
+        return $this->hasOne(Wakel::class, 'kelas_id', 'id_kelas');
     }
 
     public function siswa()
     {
-        return $this->hasMany(Siswa::class, 'id', 'id_kelas');
+        return $this->hasMany(Siswa::class, 'kelas_id', 'id_kelas');
     }
 
 }

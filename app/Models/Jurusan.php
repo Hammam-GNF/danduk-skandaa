@@ -20,4 +20,8 @@ class Jurusan extends Model
     {
         return $this->hasMany(Kelas::class, 'jurusan_id', 'id_jurusan');
     }
+    public function siswa()
+    {
+        return $this->hasMany(Siswa::class, 'nis', 'nis');
+    }
 }

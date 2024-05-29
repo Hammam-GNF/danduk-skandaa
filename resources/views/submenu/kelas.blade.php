@@ -39,11 +39,11 @@
                                 </select>
                             </div>
                             <div class="mb-1">
-                                <label for="nama_rombel" class="col-form-label">Rombel:</label>
-                                <select class="form-control" id="nama_rombel" name="nama_rombel" required>
+                                <label for="id_rombel" class="col-form-label">Rombel:</label>
+                                <select class="form-control" id="rombel" name="rombel_id" required>
                                     <option value="">Pilih Rombel</option>
                                     @foreach($rombel as $r)
-                                        <option value="{{ $r->rombel_id }}">{{ $r->nama_rombel }}</option>
+                                        <option value="{{ $r->id_rombel }}">{{ $r->id_rombel }}</option>
                                     @endforeach
                                 </select>                            
                             </div>
@@ -103,11 +103,11 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="d-flex px-2 py-1">
-                                                                            <div
-                                                                                class="d-flex flex-column justify-content-center">
+                                                                            <div class="d-flex flex-column justify-content-center">
                                                                                 <h6 class="mb-0 text-sm">
                                                                                     @foreach($jurusan as $j)
-                                                                                        {{ $j->jurusan_id }} {{ $j->nama_jurusan }}
+                                                                                    @if ($j->id_jurusan == $x->jurusan_id) {{ $j->nama_jurusan }}
+                                                                                    @endif
                                                                                     @endforeach
                                                                                 </h6>
                                                                             </div>
@@ -115,12 +115,12 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="d-flex px-2 py-1">
-                                                                            <div
-                                                                                class="d-flex flex-column justify-content-center">
+                                                                            <div class="d-flex flex-column justify-content-center">
                                                                                 <h6 class="mb-0 text-sm">
                                                                                     @foreach($rombel as $r)
-                                                                                    {{ $r->rombel_id }} {{ $r->nama_rombel }}
-                                                                                @endforeach                                                                                </h6>
+                                                                                        @if($r->id_rombel == $x->rombel_id) {{ $r->id_rombel }}@endif                                                                                
+                                                                                    @endforeach                                                                                
+                                                                                </h6>
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -131,14 +131,14 @@
                                                                             class="btn btn-primary btn-sm me-2"
                                                                             data-toggle="tooltip"
                                                                             data-original-title="Edit kelas"
-                                                                            data-bs-target="#editkelas{{ $x->id }}"
+                                                                            data-bs-target="#editkelas{{ $x->id_kelas }}"
                                                                             data-bs-toggle="modal">Edit</button>
 
                                                                         <form method="POST"
-                                                                            action="{{ route('kelas.update', $x->id) }}">
+                                                                            action="{{ route('kelas.update', $x->id_kelas) }}">
                                                                             @csrf
                                                                             @method('PUT')
-                                                                            <div class="modal fade" id="editkelas{{ $x->id }}" tabindex="-1" aria-labelledby="editkelasLabel" aria-hidden="true">
+                                                                            <div class="modal fade" id="editkelas{{ $x->id_kelas }}" tabindex="-1" aria-labelledby="editkelasLabel" aria-hidden="true">
                                                                                 <div
                                                                                     class="modal-dialog modal-dialog-centered">
                                                                                     <div class="modal-content">
@@ -149,22 +149,32 @@
                                                                                         <div class="modal-body">
 
                                                                                             <div class="mb-1">
-                                                                                                <label for="kelas_tingkat" class="col-form-label">Kelas Tingkat:</label>
-                                                                                                <input type="text" class="form-control" id="kelas_tingkat" name="kelas_tingkat" value="{{ $x->kelas_tingkat }}">
-                                                                                            </div>
-                                                                                            <div class="mb-1">
                                                                                                 <label for="nama_jurusan" class="col-form-label">Nama Jurusan:</label>
                                                                                                     <select class="form-control" id="jurusan_id" name="jurusan_id" required>
                                                                                                         <option value="">Pilih Jurusan</option>
                                                                                                         @foreach($jurusan as $j)
-                                                                                                        <option value="{{ $j->id_jurusan }}" @if($j->id_jurusan == $x->jurusan_id) selected @endif>{{ $j->nama_jurusan }}</option>
+                                                                                                            <option value="{{ $j->id_jurusan }}" @if($j->id_jurusan == $x->jurusan_id) selected @endif>{{ $j->nama_jurusan }}</option>
                                                                                                         @endforeach
                                                                                                     </select>
                                                                                             </div>
                                                                                             <div class="mb-1">
-                                                                                                <label for="rombel" class="col-form-label">Nama Kelas:</label>
-                                                                                                <input type="text" class="form-control" id="rombel" name="rombel" value="{{ $x->rombel }}">
-                                                                                            </div>
+                                                                                                <label for="kelas_tingkat" class="col-form-label">Kelas Tingkat:</label>
+                                                                                                <select class="form-control" id="kelas_tingkat" name="kelas_tingkat" required>
+                                                                                                    <option value="">Pilih Kelas</option>
+                                                                                                    <option value="X" @if($x->kelas_tingkat == 'X') selected @endif>X</option>
+                                                                                                    <option value="XI" @if($x->kelas_tingkat == 'XI') selected @endif>XI</option>
+                                                                                                    <option value="XII" @if($x->kelas_tingkat == 'XII') selected @endif>XII</option>
+                                                                                                </select>
+                                                                                            </div>                                                                                            
+                                                                                            <div class="mb-1">
+                                                                                                <label for="id_rombel" class="col-form-label">Rombel:</label>
+                                                                                                <select class="form-control" id="rombel" name="rombel_id" required>
+                                                                                                    <option value="">Pilih Rombel</option>
+                                                                                                    @foreach($rombel as $r)
+                                                                                                        <option value="{{ $r->id_rombel }}" @if($r->id_rombel == $x->rombel_id) selected @endif>{{ $r->id_rombel }}</option>
+                                                                                                    @endforeach
+                                                                                                </select>
+                                                                                            </div>                                                                                                                                                                                 
                                                                                         </div>
 
                                                                                         <div class="modal-footer">
@@ -178,10 +188,10 @@
 
 
 
-                                                                        <form action="{{ route('kelas.destroy', $x->id) }}" method="POST" class="delete-form" id="deleteForm{{ $x->id }}">
+                                                                        <form action="{{ route('kelas.destroy', $x->id_kelas) }}" method="POST" class="delete-form" id="deleteForm{{ $x->id_kelas }}">
                                                                             @csrf
                                                                             @method('DELETE')
-                                                                            <button type="button" class="btn btn-danger btn-sm deleteButton" data-id="{{ $x->id }}">Hapus</button>
+                                                                            <button type="button" class="btn btn-danger btn-sm deleteButton" data-id="{{ $x->id_kelas }}">Hapus</button>
                                                                         </form>
                                                                     </td>
 
@@ -235,7 +245,7 @@
 
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id'); // Fixed this line
+                    const id_kelas = this.getAttribute('data-id'); // Fixed this line
                     Swal.fire({
                         title: "Are you sure?",
                         text: "You won't be able to revert this!",
@@ -246,7 +256,7 @@
                         confirmButtonText: "Yes, delete it!"
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            document.getElementById('deleteForm' + id).submit();
+                            document.getElementById('deleteForm' + id_kelas).submit();
                             // Tambahkan blok Swal.fire() di sini
                             Swal.fire({
                                 title: "Deleted!",

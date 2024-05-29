@@ -9,15 +9,20 @@ class Siswa extends Model
 {
     use HasFactory;
     
-    protected $primaryKey = 'id_siswa';
+    protected $primaryKey = 'nis';
     protected $table = 'siswa';
-    protected $fillable = ['id_siswa', 'nama', 'kelas_id'];
+    protected $fillable = ['nis', 'nama_siswa', 'kelas_id', 'rombel_id'];
     protected $casts = [
-        'id_siswa' => 'string'
+        'nis' => 'string'
     ];
 
     public function kelas()
     {
         return $this->belongsTo(Kelas::class, 'kelas_id', 'id_kelas');
     }
+    public function ortu()
+    {
+        return $this->hasMany(Ortu::class, 'nama_ayah', 'nama_ayah');
+    }
+    
 }

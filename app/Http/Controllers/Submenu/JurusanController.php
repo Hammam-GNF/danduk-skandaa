@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Submenu;
 
+use App\Http\Controllers\Controller;
 use App\Models\Jurusan;
 use Illuminate\Http\Request;
 
@@ -10,11 +11,16 @@ class JurusanController extends Controller
     public function index()
     {
         $jurusan = Jurusan::all();
-        return view('jurusan', compact('jurusan'));
+        return view('submenu.jurusan', compact('jurusan'));
     }
 
     public function store(Request $request)
     {
+        $request->validate([
+            'id_jurusan' => 'required|unique:jurusan,id_jurusan|max:10',
+            'nama_jurusan' => 'required|string|max:255',
+        ]);
+        
         $jurusan = new Jurusan;
         $jurusan->id_jurusan = $request->input('id_jurusan');
         $jurusan->nama_jurusan = $request->input('nama_jurusan');
