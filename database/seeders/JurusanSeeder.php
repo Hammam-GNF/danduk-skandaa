@@ -18,12 +18,12 @@ class JurusanSeeder extends Seeder
             'nama_jurusan' => 'Teknik Kendaraan Ringan',
         ]);
         Jurusan::create([
-            'id_jurusan' => 'MM',
-            'nama_jurusan' => 'Multimedia',
+            'id_jurusan' => 'DPIB',
+            'nama_jurusan' => 'Desain Pemodelan dan Informasi Bangunan',
         ]);
         Jurusan::create([
-            'id_jurusan' => 'TKP',
-            'nama_jurusan' => 'Teknik Perkapalan',
+            'id_jurusan' => 'TKL',
+            'nama_jurusan' => 'Teknik Ketenagalistrikan',
         ]);
     }
 }

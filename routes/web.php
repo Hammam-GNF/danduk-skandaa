@@ -6,8 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Submenu\JurusanController;
 use App\Http\Controllers\Submenu\KelasController;
 use App\Http\Controllers\Submenu\WakelController;
-use App\Http\Controllers\Parenting\SiswaController;
-use App\Http\Controllers\Parenting\OrtuController;
+use App\Http\Controllers\Submenu\SiswaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Autasdh\LoginController;
@@ -42,12 +41,23 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('user', UserController::class);
         // SUBMENU
         Route::resource('submenu/wakel', WakelController::class);
+        //jurusan
         Route::resource('submenu/jurusan', JurusanController::class);
+        //kelas
         Route::resource('submenu/kelas', KelasController::class);
         Route::post('/get-kelas', [KelasController::class, 'getkelas'])->name('get-kelas');
+        // siswa
+        Route::prefix('submenu/siswa')->group(function () {
+            Route::get('/index/{id_kelas}', [SiswaController::class, 'index'])->name('submenu.siswa.index');
+            Route::post('/store', [SiswaController::class, 'store'])->name('submenu.siswa.store');
+            Route::post('/update/{id}', [SiswaController::class, 'update'])->name('submenu.siswa.update');
+            Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('submenu.siswa.destroy');
+            Route::post('/import/{id_kelas}', [SiswaController::class, 'import'])->name('submenu.siswa.import');
+        });
+        
+        // Route::get('submenu/siswa/index2/{id_kelas}', [SiswaController::class, 'index2'])->name('submenu.siswa.index2');
         //PARENTING
-        Route::resource('parenting/siswa', SiswaController::class);
-        Route::post('parenting/siswa/import', [SiswaController::class, 'import'])->name('parenting.siswa.import');
+        
         // Route::resource('parenting/ortu', ControllersOrtuController::class);
 
         // ===============

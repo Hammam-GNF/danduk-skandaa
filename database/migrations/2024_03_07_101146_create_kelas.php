@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('kelas', function (Blueprint $table) {
             $table->id('id_kelas');
             $table->string('kelas_tingkat');
+            $table->string('rombel');
             $table->string('jurusan_id');
-            $table->string('rombel_id');
             $table->rememberToken();
             $table->timestamps();
             $table->foreign('jurusan_id')->references('id_jurusan')->on('jurusan');
-            $table->foreign('rombel_id')->references('id_rombel')->on('rombel');
         });
     }
 

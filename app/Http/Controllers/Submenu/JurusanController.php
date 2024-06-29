@@ -16,24 +16,19 @@ class JurusanController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'id_jurusan' => 'required|unique:jurusan,id_jurusan|max:10',
-            'nama_jurusan' => 'required|string|max:255',
-        ]);
-        
         $jurusan = new Jurusan;
         $jurusan->id_jurusan = $request->input('id_jurusan');
         $jurusan->nama_jurusan = $request->input('nama_jurusan');
-        $jurusan->save();
+        $jurusan->save();   
 
         return redirect()->route('jurusan.index')
             ->with('suksestambah', 'Data berhasil ditambahkan')
             ->with('hideAlert', false); // Pastikan hideAlert disetel ke false setelah operasi penambahan data
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_jurusan)
     {
-        $jurusan = Jurusan::findorFail($id);
+        $jurusan = Jurusan::findorFail($id_jurusan);
         $jurusan->update($request->all());
 
         return redirect()->back()
@@ -41,10 +36,10 @@ class JurusanController extends Controller
             ->with('hideAlert', false); // Pastikan hideAlert disetel ke false setelah operasi pembaruan data
     }
 
-    public function destroy($id)
+    public function destroy($id_jurusan)
     {
-        $jurusan = Jurusan::where('id_jurusan', $id)->first();
-        $jurusan = Jurusan::find($id);
+        $jurusan = Jurusan::where('id_jurusan', $id_jurusan)->first();
+        $jurusan = Jurusan::find($id_jurusan);
         $jurusan->delete();
         return redirect()->route('jurusan.index');
     }

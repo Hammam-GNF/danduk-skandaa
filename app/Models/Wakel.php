@@ -12,9 +12,9 @@ class Wakel extends Model
     
     protected $primaryKey = 'nip';
     protected $table = 'wakel';
-    protected $fillable = ['nip', 'kelas_id', 'nama_wakel', 'jurusan_id', 'rombel_id'];
+    protected $fillable = ['nip', 'kelas_id', 'nama_wakel', 'rombel'];
     protected $casts = [
-        'nip' => 'string'
+        'nip' => 'string',
     ];
 
     public function jurusan()

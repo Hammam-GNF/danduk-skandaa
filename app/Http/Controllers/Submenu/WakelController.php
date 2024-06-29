@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Wakel;
 use App\Models\Jurusan;
 use App\Models\Kelas;
-use App\Models\Rombel;
 use Illuminate\Http\Request;
 
 class WakelController extends Controller
@@ -16,19 +15,18 @@ class WakelController extends Controller
         $wakel = Wakel::all();
         $jurusan = Jurusan::all();
         $kelas = Kelas::all();//untuk membuat 2 pilihan yang sama menjadi satu
-        // $rombel = Kelas::select('rombel')->distinct()->get();//untuk membuat 2 pilihan yang sama menjadi satu
-        $rombel = Rombel::all();
-        return view('submenu.wakel', compact('wakel', 'jurusan', 'kelas', 'rombel'));
+        return view('submenu.wakel', compact('wakel', 'jurusan', 'kelas'));
     }
 
     public function store(Request $request)
     {
+        dd($request);
         $wakel = new Wakel;
         $wakel->nip = $request->input('nip');
         $wakel->nama_wakel = $request->input('nama_wakel');
         $wakel->jurusan_id = $request->input('jurusan_id');
         $wakel->kelas_id = $request->input('kelas_id');
-        $wakel->rombel_id = $request->input('rombel_id');
+        $wakel->rombel = $request->input('rombel');
         $wakel->save();
 
         return redirect()->route('wakel.index')

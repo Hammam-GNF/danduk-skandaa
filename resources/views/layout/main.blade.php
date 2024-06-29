@@ -10,7 +10,7 @@
     <title>
         DANDUK SKANDA
     </title>
-    <!--     Fonts and icons     -->
+    <!-- Fonts and icons -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
     <link href="{{ asset('/') }}css/nucleo-icons.css" rel="stylesheet" />
@@ -20,6 +20,11 @@
     <link href="{{ asset('/') }}css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('/') }}css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.1/font/bootstrap-icons.min.css">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
@@ -27,26 +32,40 @@
 
     @include('layout.sidebar')
 
-
     <main class="main-content position-relative border-radius-lg ">
         @include('layout.navbar')
 
         @yield('content')
-
     </main>
 
-
-
-
+    <!-- Core JS Files -->
+    <script src="{{ asset('/') }}js/core/popper.min.js"></script>
+    <script src="{{ asset('/') }}js/core/bootstrap.min.js"></script>
+    <script src="{{ asset('/') }}js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="{{ asset('/') }}js/plugins/smooth-scrollbar.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <!-- Initialize DataTables -->
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#myTablex').DataTable();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#myTablexi').DataTable();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#myTablexii').DataTable();
+        });
+    </script>
 </body>
-
-
-
-
-
-<script src="{{ asset('/') }}js/core/popper.min.js"></script>
-<script src="{{ asset('/') }}js/core/bootstrap.min.js"></script>
-<script src="{{ asset('/') }}js/plugins/perfect-scrollbar.min.js"></script>
-<script src="{{ asset('/') }}js/plugins/smooth-scrollbar.min.js"></script>
 
 </html>

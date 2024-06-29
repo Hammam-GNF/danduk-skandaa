@@ -16,12 +16,10 @@ return new class extends Migration
             $table->string('nama_wakel');
             $table->unsignedBigInteger('kelas_id');
             $table->string('jurusan_id');
-            $table->string('rombel_id');
             $table->rememberToken();
             $table->timestamps();
             $table->foreign('kelas_id')->references('id_kelas')->on('kelas');
             $table->foreign('jurusan_id')->references('id_jurusan')->on('jurusan');
-            $table->foreign('rombel_id')->references('id_rombel')->on('rombel');
         });
     }
 

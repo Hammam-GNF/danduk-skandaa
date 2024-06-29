@@ -38,22 +38,13 @@
                         <li><a class="nav-link" href="{{ route('jurusan.index') }}">Jurusan</a></li>
                         <li><a class="nav-link" href="{{ route('kelas.index') }}">Kelas</a></li>
                         <li><a class="nav-link" href="{{ route('wakel.index') }}">Daftar Wali Kelas</a></li>
+                        {{-- <li><a class="nav-link" href="{{ route('siswa.index') }}">Siswa</a></li> --}}
                     </ul>
                 </li>
 
                 <hr class="horizontal dark mt-1 mb-1">
                 
-                <li class="nav-item has-submenu">
-                    <a class="nav-link d-flex align-items-center" href="parenting">
-                        <div class="icon icon-shape icon-sm border-radius-md text-center me-2">
-                            <i class="ni ni-folder-17 text-success text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text">Parenting</span>
-                    </a>                    
-                    <ul class="submenu collapse ms-3">
-                        <li><a class="nav-link" href="{{ route('siswa.index') }}">Siswa</a></li>
-                    </ul>
-                </li>
+                {{-- =========== --}}
 
                 <hr class="horizontal dark mt-1 mb-1">
 

@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('siswa', function (Blueprint $table) {
             $table->string('nis')->primary();
             $table->string('nama_siswa');
+            $table->string('jns_kelamin');
             $table->string('jurusan_id');
             $table->unsignedBigInteger('kelas_id');
-            $table->rememberToken();
             $table->timestamps();
-            $table->foreign('kelas_id')->references('id_kelas')->on('kelas');
+            $table->foreign('kelas_id')->references('id_kelas')->on('kelas'); 
             $table->foreign('jurusan_id')->references('id_jurusan')->on('jurusan');
         });
     }

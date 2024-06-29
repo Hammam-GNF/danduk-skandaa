@@ -21,11 +21,11 @@
                         <div class="modal-body">
                             <div class="mb-1">
                                 <label for="id_jurusan" class="col-form-label">Kode Jurusan:</label>
-                                <input type="text" class="form-control" id="id_jurusan" name="id_jurusan" required>
+                                <input type="text" class="form-control" id="id_jurusan" name="id_jurusan" placeholder="contoh : TKR" required>
                             </div>
                             <div class="mb-1">
                                 <label for="nama_jurusan" class="col-form-label">Nama Jurusan:</label>
-                                <input type="text" class="form-control" id="nama_jurusan" name="nama_jurusan" required>
+                                <input type="text" class="form-control" id="nama_jurusan" name="nama_jurusan" placeholder="contoh : Teknik Kendaraan Ringan" required>
                             </div>
                         </div>
                         <div class="modal-footer">
