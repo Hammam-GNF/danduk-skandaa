@@ -10,8 +10,7 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/animate/animate.css') }}">
     <!--===============================================================================================-->
@@ -66,30 +65,27 @@
                         @enderror
 
                         <div class="wrap-input100 validate-input">
-                            <input class="input100" type="password" name="password" id="password"
-                                placeholder="Password" required>
+                            <input class="input100 @error('password') is-invalid @enderror" type="password"
+                                name="password" id="password" placeholder="Password" required>
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <i class="fa fa-lock" aria-hidden="true"></i>
                             </span>
                         </div>
 
-                        <div class="wrap-input100 validate-input">
-                            <div style="position: relative;">
-                                <select class="input100" name="role_id" required>
-                                    <option value="" selected disabled hidden>Select Role</option>
-                                    <option value="{{ 1 }}">Admin</option>
-                                    <option value="{{ 2 }}">Wali Kelas</option>
-                                </select>
-                                <span class="symbol-input100">
-                                    <i class="fa fa-fire" aria-hidden="true"></i>
-                                </span>
+                        @error('password')
+                            <div class="invalid-feedback">
+                                {{ $message }}
                             </div>
-                        </div>
+                        @enderror
 
-                        Forgot Password?
-                        <button style="background-text: primary;"
-                            onclick="window.location.href='https://wa.me/+6285876009106'">Click here</button>
+                        @error('role_id')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+
+                        <input type="hidden" name="user_id" value="{{ old('user_id') }}">
 
                         <div class="container-login100-form-btn">
                             <button class="login100-form-btn">
@@ -106,7 +102,6 @@
                                 <img src="{{ asset('assets/images/logoweb.png') }}" alt="Website" width="30"
                                     height="30">
                             </a>
-
                         </div>
 
                     </form>
@@ -135,7 +130,6 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
     {{-- ============================================================================ --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 
 </body>
 

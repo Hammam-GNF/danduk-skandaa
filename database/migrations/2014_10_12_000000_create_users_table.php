@@ -12,15 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('role_id');
-            $table->string('username');
-            $table->string('password');
-            $table->string('foto')->nullable();
-            $table->rememberToken();
+            $table->increments('id');
+            $table->unsignedInteger('role_id');
+            $table->enum('jns_kelamin', ['Laki-laki', 'Perempuan']);
+            $table->bigInteger('nip');
+            $table->bigInteger('no_hp');
+            $table->string('username', 70)->unique();
+            $table->string('password', 255);
             $table->timestamps();
+            
             $table->foreign('role_id')->references('id')->on('role');
         });
+
     }
 
     /**

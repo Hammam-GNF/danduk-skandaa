@@ -23,8 +23,7 @@
                                 <label for="id" class="col-form-label">Level:</label>
                                 <select class="form-control" id="id" name="role_id" required>
                                     <option value="" disabled selected>Pilih Level</option>
-                                    <option value="2">Guru</option>
-                                    <option value="3">Siswa</option>
+                                    <option value="2">Wali Kelas</option>
                                 </select>
                             </div>
                             <div class="mb-1">

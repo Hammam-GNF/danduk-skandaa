@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Wakel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -24,17 +25,17 @@ class UserController extends Controller
 
         return redirect()->route('user.index')
             ->with('suksestambah', 'Data berhasil ditambahkan')
-            ->with('hideAlert', false); // Pastikan hideAlert disetel ke false setelah operasi penambahan data
+            ->with('hideAlert', false); 
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $nip)
     {
         $user = User::findorFail($id);
         $user->update($request->all());
 
         return redirect()->back()
             ->with('suksesedit', 'Data berhasil diperbarui')
-            ->with('hideAlert', false); // Pastikan hideAlert disetel ke false setelah operasi pembaruan data
+            ->with('hideAlert', false); 
     }
 
     public function destroy($id)
@@ -45,12 +46,12 @@ class UserController extends Controller
         return redirect()->route('user.index');
     }
 
-    public function resetpassword($id)
+    public function resetPassword($username)
     {
-        $user = User::findorFail($id);
-        $user->password = Hash::make(12345678);
+        $user = User::where('username', $username)->firstOrFail();
+        $user->password = Hash::make('12345678');
         $user->save();
-        
-        return redirect()-> back();
+
+        return response()->json(['username' => $username, 'message' => 'Password berhasil direset!']);
     }
 }

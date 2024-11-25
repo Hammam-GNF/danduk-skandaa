@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Admin\Kelas;
+use App\Models\Admin\Pembelajaran;
+use App\Models\Wakel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,39 +14,16 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $table = 'users';
-    protected $fillable = [
-        'role_id',
-        'username',
-        'password',
-        'remember_token'
-    ];
-
+    protected $fillable = ['role_id', 'jns_kelamin', 'nip', 'no_hp', 'username', 'password'];
 
     protected $primaryKey = 'id';
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 
@@ -52,4 +31,32 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
+
+    public function wakel()
+    {
+        return $this->hasMany(Wakel::class, 'user_id', 'id');
+    }
+
+    public function pembelajaran()
+    {
+        return $this->hasMany(Pembelajaran::class, 'user_id', 'id');
+    }
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'kelas_id', 'id');
+    }
+
+    public static $rules = [
+        'role_id' => 'required|exists:roles,id',
+        'user_id' => 'required|exists:users,id',
+    ];
+
+    public static $messages = [
+        'role_id.exists' => 'Role dengan ID yang diberikan tidak ditemukan.',
+        'role_id.required' => 'Role wajib diisi.',
+        'user_id.exists' => 'User dengan ID yang diberikan tidak ditemukan.',
+        'user_id.required' => 'User wajib diisi.',
+    ];
+
 }

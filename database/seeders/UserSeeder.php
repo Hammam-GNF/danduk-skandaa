@@ -15,14 +15,12 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'username' => 'Gonjil',
-            'password' => Hash::make('Gonjil'),
+            'username' => 'mimin',
+            'password' => Hash::make('mimin'),
             'role_id' => 1,
-        ]);
-        User::create([
-            'username' => 'Wakel',
-            'password' => Hash::make('Wakel'),
-            'role_id' => 2,
+            'jns_kelamin' => 'Laki-laki',
+            'nip' => '210302080',
+            'no_hp' => '081234567890'
         ]);
     }
 }

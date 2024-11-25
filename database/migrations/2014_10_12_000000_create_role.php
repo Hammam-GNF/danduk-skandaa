@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('role', function (Blueprint $table) {
-            $table->id();
-            $table->string('level');
+            $table->increments('id');
+            $table->enum('level', ['Admin', 'Kepala Sekolah', 'Wali Kelas', 'Guru']);
             $table->timestamps();
         });
     }

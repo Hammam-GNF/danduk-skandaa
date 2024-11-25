@@ -18,12 +18,12 @@ class CekLogin
     {
         if(!Auth::check()){
             return redirect('/');
-    }
+        }
 
-    $user = Auth::user();
-    if (in_array($user->role_id, $roles)) {
-        return $next($request);
-    }
+        $user = Auth::user();
+        if (in_array($user->role_id, $roles)) {
+            return $next($request);
+        }
     
     return redirect('/')->with('error',"Kamu tidak ada akses");
     }

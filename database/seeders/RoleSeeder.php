@@ -13,13 +13,9 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create([
-            'id' => '1',
-            'level' => 'Admin'
-        ]);
-        Role::create([
-            'id' => '2',
-            'level' => 'Wakel'
-        ]);
+        Role::updateOrCreate(['level' => 'Admin'], ['level' => 'Admin']);
+        Role::updateOrCreate(['level' => 'Kepala Sekolah'], ['level' => 'Kepala Sekolah']);
+        Role::updateOrCreate(['level' => 'Wali Kelas'], ['level' => 'Wali Kelas']);
+        Role::updateOrCreate(['level' => 'Guru'], ['level' => 'Guru']);
     }
 }
