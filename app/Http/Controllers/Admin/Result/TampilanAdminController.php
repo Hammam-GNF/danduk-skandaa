@@ -4,16 +4,12 @@ namespace App\Http\Controllers\Admin\Result;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Kelas;
-use App\Models\Admin\Mapel;
 use App\Models\Admin\Pembelajaran;
 use App\Models\Admin\Siswa;
 use App\Models\Admin\TahunAjaran;
 use App\Models\Nilai;
 use App\Models\Presensi;
-use App\Models\User;
 use App\Models\Wakel;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class TampilanAdminController extends Controller
 {
@@ -26,25 +22,29 @@ class TampilanAdminController extends Controller
     {
         $userId = auth()->user()->id;
 
-        $kelas = Kelas::with(['wakel'])->get();
+        $kelas = Kelas::with(['wakel'])->get();  
 
-        $tahunAjaranAktif = $this->getTahunAjaranAktif();
+        if ($kelas->isEmpty()) {
+            return view('admin.result.daftarkelas', [
+                'message' => 'Tidak ada data.',
+                'kelas' => $kelas, 
+                'wakel' => collect([]),
+                'siswa' => collect([]),
+            ]);
+        }
 
         $pembelajaran = Pembelajaran::with(['kelas.wakel'])
-        ->whereIn('kelas_id', $kelas->pluck('id')->toArray())
-        ->get();
+            ->whereIn('kelas_id', $kelas->pluck('id')->toArray())
+            ->get();
 
-        $kelasIds = $kelas->pluck('id')->toArray();
-        $wakelIds = $kelas->pluck('wakel.id')->filter()->toArray();
+        $siswa = Siswa::whereIn('kelas_id', $kelas->pluck('id')->toArray())
+            ->get();
 
-        $wakel = Wakel::whereIn('id', $wakelIds)->get();
-        
-        $siswa = Siswa::whereIn('kelas_id', $kelasIds)
-        ->where('thajaran_id', $tahunAjaranAktif->id)
-        ->get();
+        $wakel = Wakel::whereIn('id', $kelas->pluck('wakel.id')->filter()->toArray())->get();
 
         return view('admin.result.daftarkelas', compact('pembelajaran', 'wakel', 'kelas', 'siswa'));
     }
+
 
     public function rekapPresensi($id)
     {

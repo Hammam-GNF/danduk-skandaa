@@ -8,7 +8,7 @@
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tambahmapel">
             Tambah Mata Pelajaran
         </button>
-        <!-- Modal -->
+        <!-- Modal Tambah -->
         <form method="POST" action="{{ route('admin.mapel.store') }}">
             @csrf
             <div class="modal fade" id="tambahmapel" tabindex="-1" aria-labelledby="tambahmapelLabel" aria-hidden="true">

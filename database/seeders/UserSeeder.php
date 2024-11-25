@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,5 +21,6 @@ class UserSeeder extends Seeder
             'nip' => '210302080',
             'no_hp' => '081234567890'
         ]);
+        User::factory(12)->create();
     }
 }

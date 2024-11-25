@@ -11,38 +11,17 @@ use App\Http\Controllers\Admin\Datamaster\KelasController;
 use App\Http\Controllers\Admin\Datamaster\SiswaController;
 use App\Http\Controllers\Admin\Datamaster\PembelajaranController;
 use App\Http\Controllers\Admin\Datamaster\SiswaPerKelasController;
-use App\Http\Controllers\Admin\Nilai\NilaiController as NilaiAdminController;
 use App\Http\Controllers\Admin\Result\NilaiController as ResultNilaiController;
 use App\Http\Controllers\Admin\Result\PresensiController;
 use App\Http\Controllers\Admin\Result\TampilanAdminController;
 use App\Http\Controllers\Admin\Result\TranskripController;
-use App\Http\Controllers\Presnil\KelolaPresensiController;
-use App\Http\Controllers\Wakel\Presensi\PertemuanController;
-use App\Http\Controllers\Presnil\AbsenController;
-use App\Http\Controllers\Presnil\NilaiController;
 use App\Http\Controllers\TampilanGuruController;
 use App\Http\Controllers\TampilanKepsekController;
 use App\Http\Controllers\TampilanWakelController;
-use App\Http\Controllers\Wakel\Presensi\RekapPresensi;
-use App\Http\Controllers\Wakel\Nilai\GradeController;
-use App\Http\Controllers\Wakel\Presensi\RekapPresensiController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\Wakel\Nilai\NilaiController as NilaiWakelController;
 use App\Http\Controllers\Wakel\Presensi\PresensiController as PresensiWakelController;
 use App\Http\Controllers\Wakel\Result\TranskripController as ResultTranskripController;
-use App\Models\Admin\PresensiAdmin;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/actionlogin', [AuthController::class, 'actionLogin'])->name('actionLogin');
@@ -53,16 +32,6 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('CekLogin:1')->group(function () {
         // DASHBOARD
         Route::get('/dashboard/admin', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
-
-        // USER
-        Route::prefix('admin/submenu/user')->group(function () {
-            Route::get('/', [UserController::class, 'index'])->name('admin.user.index');
-            Route::patch('/user/reset-password/{username}', [UserController::class, 'resetPassword'])->name('resetPassword');
-            Route::post('/', [UserController::class, 'store'])->name('admin.user.store');
-            Route::get('/{user}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
-            Route::put('/{user}', [UserController::class, 'update'])->name('admin.user.update');
-            Route::delete('/{user}', [UserController::class, 'destroy'])->name('admin.user.destroy');
-        });
 
         // TAHUN AJARAN
         Route::prefix('admin/administrasi/thajaran')->group(function () {
@@ -84,15 +53,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/check/{jurusan}', [JurusanController::class, 'checkRelatedData'])->name('admin.jurusan.check');
         });
 
-        //WAKEL
-        Route::prefix('admin/administrasi/wakel')->group(function () {
-            Route::get('/', [WakelController::class, 'index'])->name('admin.wakel.index');
-            Route::post('/', [WakelController::class, 'store'])->name('admin.wakel.store');
-            Route::put('/{wakel}', [WakelController::class, 'update'])->name('admin.wakel.update');
-            Route::delete('/{wakel}', [WakelController::class, 'destroy'])->name('admin.wakel.destroy');
-            Route::get('/check/{id}', [WakelController::class, 'checkRelatedData'])->name('admin.wakel.check');
-        });
-
         //PENGGUNA
         Route::prefix('admin/administrasi/pengguna')->group(function () {
             Route::get('/', [PenggunaController::class, 'index'])->name('admin.pengguna.index');
@@ -103,9 +63,6 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/{user}', [PenggunaController::class, 'destroy'])->name('admin.pengguna.destroy');
             Route::post('/{user}/reset-password', [PenggunaController::class, 'resetPassword'])->name('admin.pengguna.resetPassword');
         });
-        
-        
-
 
         // MAPEL
         Route::prefix('admin/administrasi/mapel')->group(function () {
@@ -127,6 +84,15 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/destroy/{id}', [KelasController::class, 'destroy'])->name('admin.kelas.destroy');
             Route::post('/get-kelas', [KelasController::class, 'getkelas'])->name('admin.kelas.get-kelas');
             Route::get('/check/{id}', [KelasController::class, 'checkRelatedData'])->name('admin.kelas.checkRelatedData');
+        });
+
+        //WAKEL
+        Route::prefix('admin/administrasi/wakel')->group(function () {
+            Route::get('/', [WakelController::class, 'index'])->name('admin.wakel.index');
+            Route::post('/', [WakelController::class, 'store'])->name('admin.wakel.store');
+            Route::put('/{wakel}', [WakelController::class, 'update'])->name('admin.wakel.update');
+            Route::delete('/{wakel}', [WakelController::class, 'destroy'])->name('admin.wakel.destroy');
+            Route::get('/check/{id}', [WakelController::class, 'checkRelatedData'])->name('admin.wakel.check');
         });
 
         // SISWA
@@ -153,11 +119,8 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/{nis}{kelas_id}', [SiswaPerKelasController::class, 'destroy'])->name('admin.siswaperkelas.destroy');
             Route::post('/import', [SiswaPerKelasController::class, 'import'])->name('admin.siswa.import');
             Route::get('/{kelas_id}/getsiswaperkelas', [SiswaPerKelasController::class, 'getsiswaperkelas'])->name('admin.siswaperkelas.getsiswaperkelas');
-
             Route::get('/getWakel/{kelas_id}', [SiswaController::class, 'getWakel']);
-
         });
-
 
         // PEMBELAJARAN
         Route::prefix('admin/datamaster/pembelajaran')->group(function () {
@@ -165,12 +128,17 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/', [PembelajaranController::class, 'store'])->name('admin.pembelajaran.store');
             Route::put('/{pembelajaran}', [PembelajaranController::class, 'update'])->name('admin.pembelajaran.update');
             Route::delete('/{pembelajaran}', [PembelajaranController::class, 'destroy'])->name('admin.pembelajaran.destroy');
-
             Route::get('/mapel/{thajaran_id}', [PembelajaranController::class, 'getMapel']);
             Route::get('/getKelasByThajaran/{thajaran_id}', [SiswaController::class, 'getKelasByThajaran']);
             Route::get('/getWakel/{kelas_id}', [SiswaController::class, 'getWakel']);
         });
 
+        //RESULT
+        Route::prefix('admin/result')->group(function () {
+            Route::get('/', [TampilanAdminController::class, 'indexhasil'])->name('admin.result.index');
+            Route::get('/rekappresensi/{id}', [TampilanAdminController::class, 'rekapPresensi'])->name('admin.result.rekap.presensi');
+            Route::get('/rekapnilai/{id}', [TampilanAdminController::class, 'rekapNilai'])->name('admin.result.rekap.nilai');
+        });
 
         // PRESENSI
         Route::prefix('admin/result/presensi')->group(function () {
@@ -185,22 +153,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/{id}', [ResultNilaiController::class, 'indexrekapnilai'])->name('admin.nilai.indexrekapnilai');
             Route::get('{kelas}/export', [ResultNilaiController::class, 'export'])->name('admin.nilai.export');
         });
-
-        //RESULT
-        Route::prefix('admin/result')->group(function () {
-            Route::get('/', [TampilanAdminController::class, 'indexhasil'])->name('admin.result.index');
-            Route::get('/rekappresensi/{id}', [TampilanAdminController::class, 'rekapPresensi'])->name('admin.result.rekap.presensi');
-            Route::get('/rekapnilai/{id}', [TampilanAdminController::class, 'rekapNilai'])->name('admin.result.rekap.nilai');
-
-        });
-
-        //TRANSKRIP
-        // Route::prefix('admin/transkrip')->group(function () {
-        //     Route::get('/', [TampilanAdminController::class, 'indexhasil'])->name('admin.result.index');
-        //     Route::get('/rekappresensi/{id}', [TampilanAdminController::class, 'rekapPresensi'])->name('admin.result.rekap.presensi');
-
-        // });
-
 
         Route::prefix('admin/result/transkrip')->group(function () {
             Route::get('/nilai', [TranskripController::class, 'indextranskrip'])->name('admin.result.indextranskripnilai');
@@ -280,9 +232,6 @@ Route::middleware(['auth'])->group(function () {
         // NILAI
         Route::prefix('wakel/nilai')->group(function () {
             Route::get('/{id}', [NilaiWakelController::class, 'indexwakel'])->name('wakel.nilai.indexwakel');
-            // Route::get('/kelola/{id_pembelajaran}', [NilaiWakelController::class, 'kelola'])->name('wakel.nilai.kelola');
-            // Route::get('/kelola/hasilkelola/{id_pembelajaran}', [NilaiWakelController::class, 'hasilkelola'])->name('wakel.nilai.hasilkelola');
-            // Route::post('/store', [NilaiWakelController::class, 'store'])->name('wakel.nilai.store');
             Route::put('{id}', [NilaiWakelController::class, 'update'])->name('wakel.nilai.update');
             Route::delete('{id}', [NilaiWakelController::class, 'destroy'])->name('wakel.nilai.destroy');
             Route::get('{kelas}/export', [NilaiWakelController::class, 'export'])->name('wakel.nilai.export');
@@ -314,24 +263,5 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/storepresensi', [TampilanGuruController::class, 'storepresensi'])->name('guru.presensi.store');
             Route::post('/storenilai', [TampilanGuruController::class, 'storenilai'])->name('guru.nilai.store');
         });
-
-        // // NILAI
-        // Route::prefix('wakel/nilai')->group(function () {
-        //     Route::get('/{id}', [NilaiWakelController::class, 'indexwakel'])->name('wakel.nilai.indexwakel');
-        //     Route::get('/kelola/{id_pembelajaran}', [NilaiWakelController::class, 'kelola'])->name('wakel.nilai.kelola');
-        //     Route::get('/kelola/hasilkelola/{id_pembelajaran}', [NilaiWakelController::class, 'hasilkelola'])->name('wakel.nilai.hasilkelola');
-        //     Route::post('/store', [NilaiWakelController::class, 'store'])->name('wakel.nilai.store');
-        //     Route::put('{id}', [NilaiWakelController::class, 'update'])->name('wakel.nilai.update');
-        //     Route::delete('{id}', [NilaiWakelController::class, 'destroy'])->name('wakel.nilai.destroy');
-        //     Route::get('{kelas}/export', [NilaiWakelController::class, 'export'])->name('wakel.nilai.export');
-        //     Route::post('{kelas}/all/export', [NilaiWakelController::class, 'exportAll'])->name('wakel.nilai.all.export');
-        // });
-
-        // //TRANSKRIP
-        // Route::prefix('wakel/result/transkrip')->group(function () {
-        //     Route::get('/', [ResultTranskripController::class, 'indextranskrip'])->name('wakel.result.indextranskrip');
-        //     Route::get('/{id}', [ResultTranskripController::class, 'rekaptranskrip'])->name('wakel.result.rekaptranskrip');
-        //     Route::get('{kelas}/export', [ResultTranskripController::class, 'exportpdf'])->name('wakel.result.exportpdf');
-        // });
     });
 });

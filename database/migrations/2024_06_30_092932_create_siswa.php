@@ -22,7 +22,7 @@ return new class extends Migration
             $table->char('jns_kelamin', 10);
             $table->char('status',20);
             $table->char('nama_ortu', 100)->nullable();
-            $table->integer('nohp_ortu')->nullable();
+            $table->bigInteger('nohp_ortu')->nullable();
             $table->string('alamat', 255)->nullable();
             $table->timestamps();
 

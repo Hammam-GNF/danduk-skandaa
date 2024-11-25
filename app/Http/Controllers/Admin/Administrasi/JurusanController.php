@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Admin\Administrasi;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Jurusan;
-use App\Models\Admin\TahunAjaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class JurusanController extends Controller
 {

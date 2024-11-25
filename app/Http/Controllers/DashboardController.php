@@ -66,18 +66,6 @@ class DashboardController extends Controller
             return redirect()->route('login')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         }
     
-        // $guruCollection = $user->guru;
-    
-        // if ($guruCollection->isEmpty()) {
-        //     return redirect()->route('login')->with('error', 'Data wali kelas tidak ditemukan.');
-        // }
-    
-        // $jumlahSiswa = $guruCollection->sum(function ($wakel) {
-        //     return $wakel->kelas->sum(function ($kelas) {
-        //         return $kelas->siswa->count();
-        //     });
-        // });
-    
         return view('guru.dashboard');
     }
     
