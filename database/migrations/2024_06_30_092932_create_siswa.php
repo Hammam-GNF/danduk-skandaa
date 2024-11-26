@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedInteger('kelas_id');
 
             $table->char('nama_siswa', 100);
-            $table->char('jns_kelamin', 10);
-            $table->char('status',20);
+            $table->enum('jns_kelamin', ['Laki-laki', 'Perempuan']);
+            $table->enum('status', ['Aktif', 'Nonaktif']);
             $table->char('nama_ortu', 100)->nullable();
             $table->bigInteger('nohp_ortu')->nullable();
             $table->string('alamat', 255)->nullable();

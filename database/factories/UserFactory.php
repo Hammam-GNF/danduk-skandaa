@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -13,21 +14,19 @@ use Illuminate\Support\Str;
 class UserFactory extends Factory
 {
     protected static ?string $password;
+    protected $model = User::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
+        $username = $this->faker->unique()->userName;
+
         return [
             'role_id' => Role::inRandomOrder()->first()->id,
             'jns_kelamin' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
             'nip' => $this->faker->unique()->numberBetween(100000000000, 999999999999),
             'no_hp' => $this->faker->unique()->numerify('############'),
-            'username' => $this->faker->unique()->userName,
-            'password' => bcrypt('password'),
+            'username' => $username,
+            'password' => bcrypt($username),
         ];
     }
 

@@ -28,9 +28,15 @@ class SiswaController extends Controller
 
     public function index(Request $request)
     {
+        $tahunAjaranAktif = $this->getTahunAjaranAktif();
+        
+        if (!$tahunAjaranAktif) {
+            return redirect()->route('admin.siswa.index')->with('error', 'Pilih tahun ajaran terlebih dahulu untuk menampilkan daftar siswa.');
+        }
         $kelas = Kelas::with('jurusan')->get();
 
         $id = $request->query('id');
+
         if ($id) {
             $kelas = Kelas::with('jurusan')->findOrFail($id);
             $siswa = Siswa::where('kelas_id', $id)
@@ -47,6 +53,20 @@ class SiswaController extends Controller
         $wakel = Wakel::with('kelas')->get();
 
         return view('admin.datamaster.siswa', compact('kelas', 'jurusan', 'siswa', 'wakel'));
+    }
+
+    public function showSiswaPerKelas($id)
+    {
+        $kelas = Kelas::with(['jurusan'])->findOrFail($id);
+        $tahunAjaranAktif = $this->getTahunAjaranAktif();
+
+        $siswa = Siswa::where('kelas_id', $id)
+            ->where('thajaran_id', $tahunAjaranAktif->id)
+            ->get();
+            
+        $jurusan = Jurusan::all();
+        
+        return view('admin.datamaster.siswaperkelas', compact('kelas', 'siswa', 'jurusan'));
     }
 
     public function create(Request $request)
@@ -66,9 +86,20 @@ class SiswaController extends Controller
     public function getWakel($kelas_id)
     {
         $kelas = Kelas::with('wakel.user', 'jurusan')->find($kelas_id);
+        if ($kelas) {
+            if ($kelas->wakel) {
+                return response()->json(['wakel' => $kelas->wakel]);
+            } else {
+                return response()->json([
+                    'wakel' => null,
+                    'jurusan_id' => $kelas->jurusan ? $kelas->jurusan->id : null
+                ]);
+            }
+        }
+        
         return response()->json([
-            'wakel' => $kelas->wakel, 
-            'jurusan_id' => $kelas->jurusan->id
+            'wakel' => null,
+            'jurusan_id' => null
         ]);
     }
 
@@ -114,9 +145,9 @@ class SiswaController extends Controller
     {
         $request->validate([
             'kelas_id' => 'required|exists:kelas,id',
-            'nis' => 'required|integer',
+            'nis' => 'required|integer|unique:siswa,nis,' . $nis . ',nis',
             'nama_siswa' => 'required|string|max:255',
-            'jns_kelamin' => 'required|in:L,P',
+            'jns_kelamin' => 'required|in:Laki-laki,Perempuan',
             'status' => 'required|in:Aktif,Nonaktif',
         ]);
 
@@ -146,14 +177,12 @@ class SiswaController extends Controller
         try {
             Siswa::where('nis', $nis)->delete();
 
-            // Ambil kembali data kelas untuk dikirim ke view
             $id_kelas = request()->input('id_kelas');
             $jurusan = Jurusan::all();
             $kelas_X = Kelas::where('kelas_tingkat', 'X')->get();
             $kelas_XI = Kelas::where('kelas_tingkat', 'XI')->get();
             $kelas_XII = Kelas::where('kelas_tingkat', 'XII')->get();
 
-            // Redirect ke halaman index dengan menyertakan data tambahan
             return redirect()->route('admin.siswa.index')
                 ->with('sukseshapus', 'Data berhasil dihapus')
                 ->with('hideAlert', false)

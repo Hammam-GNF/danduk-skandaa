@@ -26,8 +26,9 @@
                         </div>
                         <div class="form-group">
                             <label for="wakel_display" class="form-label">Wali Kelas:</label>
-                            <input type="text" class="form-control" id="wakel_display" name="wakel_display" readonly value="{{ $siswa->wakel->user->username ?? '' }}">
-                            <input type="hidden" id="wakel_id" name="wakel_id" value="{{ $siswa->wakel_id }}">
+                            <input type="text" class="form-control" id="wakel_display" name="wakel_display" readonly 
+                                value="{{ $siswa->wakel->user->username ?? 'Kelas ini belum ada wali kelasnya' }}">
+                            <input type="hidden" id="wakel_id" name="wakel_id" value="{{ $siswa->wakel->id ?? '' }}">
                         </div>
                         <div class="form-group">
                             <label for="nis" class="form-label">NIS:</label>
@@ -41,8 +42,8 @@
                             <label for="jns_kelamin" class="form-label">Jenis Kelamin:</label>
                             <select class="form-control" id="jns_kelamin" name="jns_kelamin" required>
                                 <option value="">Pilih Jenis Kelamin</option>
-                                <option value="L" {{ $siswa->jns_kelamin == 'L' ? 'selected' : '' }}>Laki-laki</option>
-                                <option value="P" {{ $siswa->jns_kelamin == 'P' ? 'selected' : '' }}>Perempuan</option>
+                                <option value="Laki-laki" {{ $siswa->jns_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="Perempuan" {{ $siswa->jns_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -104,12 +105,16 @@
                             wakelDisplay.value = data.wakel.user.username;
                             wakelInput.value = data.wakel.id;
                         } else {
-                            console.error('Data wali kelas tidak ditemukan.');
+                            wakelDisplay.value = 'Kelas ini belum ada wali kelasnya';
                         }
                     })
-                    .catch(error => console.error('Error fetching wali kelas:', error));
+                    .catch(error => {
+                        wakelDisplay.value = 'Gagal mengambil data wali kelas.';
+                        console.error('Error fetching wali kelas:', error);
+                    });
             }
         });
+
     });
 </script>
 

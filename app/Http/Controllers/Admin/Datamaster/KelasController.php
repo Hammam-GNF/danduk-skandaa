@@ -74,7 +74,6 @@ class KelasController extends Controller
                 ->withInput();
         }
 
-        // Update data kelas
         $kelas->update($request->all());
 
         return redirect()->route('admin.kelas.index')
@@ -86,7 +85,6 @@ class KelasController extends Controller
     {
         $kelas = Kelas::findOrFail($id);
 
-        // Periksa apakah kelas ditemukan
         if ($kelas->siswa()->exists() || 
             $kelas->pembelajaran()->exists()) {
             Alert::error("Data ini tidak bisa dihapus karena memiliki data yang terkait.");
@@ -106,7 +104,6 @@ class KelasController extends Controller
         try {
             $kelas = Kelas::findOrFail($id);
 
-            // Cek apakah ada data terkait siswa
             $hasRelatedSiswa = $kelas->siswa()->exists();
             $hasRelatedPembelajaran = $kelas->pembelajaran()->exists();
             $hasRelatedKelolaPresensi = $kelas->kelolapresensi()->exists();

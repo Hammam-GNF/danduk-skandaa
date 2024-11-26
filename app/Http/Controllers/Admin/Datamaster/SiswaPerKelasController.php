@@ -23,20 +23,6 @@ class SiswaPerKelasController extends Controller
         return TahunAjaran::where('status','aktif')->first();
     }
 
-    public function index($id)
-    {
-        $kelas = Kelas::with(['jurusan'])->findOrFail($id);
-        $tahunAjaranAktif = $this->getTahunAjaranAktif();
-
-        $siswa = Siswa::where('kelas_id', $id)
-            ->where('thajaran_id', $tahunAjaranAktif->id)
-            ->get();
-            
-        $jurusan = Jurusan::all();
-        
-        return view('admin.datamaster.siswaperkelas', compact('kelas', 'siswa', 'jurusan'));
-    }
-
     public function create(Request $request, $id)
     {
         $kelas = Kelas::with(['jurusan'])->findOrFail($id); 
@@ -63,7 +49,9 @@ class SiswaPerKelasController extends Controller
         $siswa->jns_kelamin = $request->input('jns_kelamin');
         $siswa->kelas_id = $request->input('kelas_id');
         $siswa->status = $request->input('status');
-
+        $siswa->nama_ortu = $request->input('nama_ortu') ?? null;
+        $siswa->nohp_ortu = $request->input('nohp_ortu') ?? null;
+        $siswa->alamat = $request->input('alamat') ?? null;
         $siswa->thajaran_id = $tahunAjaranAktif->id;
 
         $siswa->save();
@@ -90,7 +78,7 @@ class SiswaPerKelasController extends Controller
             'kelas_id' => 'required|exists:kelas,id',
             'nis' => 'required|integer',
             'nama_siswa' => 'required|string|max:255',
-            'jns_kelamin' => 'required|in:L,P',
+            'jns_kelamin' => 'required|in:Laki-laki,Perempuan',
             'status' => 'required|in:Aktif,Nonaktif',
         ]);
 
@@ -124,13 +112,11 @@ class SiswaPerKelasController extends Controller
 
         $siswa->delete();
 
-        // Ambil data yang diperlukan
         $jurusan = Jurusan::all();
         $kelas_X = Kelas::where('kelas_tingkat', 'X')->get();
         $kelas_XI = Kelas::where('kelas_tingkat', 'XI')->get();
         $kelas_XII = Kelas::where('kelas_tingkat', 'XII')->get();
 
-        // Redirect ke route yang sesuai dengan kelas_id
         return redirect()->route('admin.siswaperkelas.index', ['id' => $kelas])
             ->with('sukseshapus', 'Data berhasil dihapus')
             ->with('hideAlert', false)

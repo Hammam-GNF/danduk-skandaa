@@ -26,7 +26,6 @@ return new class extends Migration
             $table->unsignedInteger('pembelajaran_id');
             $table->timestamps();
 
-            // Definisi foreign keys
             $table->foreign('mapel_id')->references('id')->on('mapel')->onDelete('cascade')->onUpdate('restrict');
             $table->foreign('id_guru')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('wakel_id')->references('id')->on('wakel')->onUpdate('cascade')->onDelete('restrict');

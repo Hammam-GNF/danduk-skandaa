@@ -33,6 +33,17 @@ Route::middleware(['auth'])->group(function () {
         // DASHBOARD
         Route::get('/dashboard/admin', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
 
+        //PENGGUNA
+        Route::prefix('admin/administrasi/pengguna')->group(function () {
+            Route::get('/', [PenggunaController::class, 'index'])->name('admin.pengguna.index');
+            Route::get('/create', [PenggunaController::class, 'create'])->name('admin.pengguna.create');
+            Route::post('/', [PenggunaController::class, 'store'])->name('admin.pengguna.store');
+            Route::get('/{user}/edit', [PenggunaController::class, 'edit'])->name('admin.pengguna.edit');
+            Route::put('/{user}', [PenggunaController::class, 'update'])->name('admin.pengguna.update');
+            Route::delete('/{user}', [PenggunaController::class, 'destroy'])->name('admin.pengguna.destroy');
+            Route::post('/{user}/reset-password', [PenggunaController::class, 'resetPassword'])->name('admin.pengguna.resetPassword');
+        });
+
         // TAHUN AJARAN
         Route::prefix('admin/administrasi/thajaran')->group(function () {
             Route::get('/', [TahunAjaranController::class, 'index'])->name('admin.thajaran.index');
@@ -51,17 +62,6 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/{jurusan}', [JurusanController::class, 'update'])->name('admin.jurusan.update');
             Route::delete('/{jurusan}', [JurusanController::class, 'destroy'])->name('admin.jurusan.destroy');
             Route::get('/check/{jurusan}', [JurusanController::class, 'checkRelatedData'])->name('admin.jurusan.check');
-        });
-
-        //PENGGUNA
-        Route::prefix('admin/administrasi/pengguna')->group(function () {
-            Route::get('/', [PenggunaController::class, 'index'])->name('admin.pengguna.index');
-            Route::get('/create', [PenggunaController::class, 'create'])->name('admin.pengguna.create');
-            Route::post('/', [PenggunaController::class, 'store'])->name('admin.pengguna.store');
-            Route::get('/{user}/edit', [PenggunaController::class, 'edit'])->name('admin.pengguna.edit');
-            Route::put('/{user}', [PenggunaController::class, 'update'])->name('admin.pengguna.update');
-            Route::delete('/{user}', [PenggunaController::class, 'destroy'])->name('admin.pengguna.destroy');
-            Route::post('/{user}/reset-password', [PenggunaController::class, 'resetPassword'])->name('admin.pengguna.resetPassword');
         });
 
         // MAPEL
@@ -84,6 +84,10 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/destroy/{id}', [KelasController::class, 'destroy'])->name('admin.kelas.destroy');
             Route::post('/get-kelas', [KelasController::class, 'getkelas'])->name('admin.kelas.get-kelas');
             Route::get('/check/{id}', [KelasController::class, 'checkRelatedData'])->name('admin.kelas.checkRelatedData');
+
+            //siswa perkelas
+            Route::get('/{id}', [SiswaController::class, 'showSiswaPerKelas'])->name('admin.siswaperkelas.index');
+
         });
 
         //WAKEL
@@ -93,6 +97,28 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/{wakel}', [WakelController::class, 'update'])->name('admin.wakel.update');
             Route::delete('/{wakel}', [WakelController::class, 'destroy'])->name('admin.wakel.destroy');
             Route::get('/check/{id}', [WakelController::class, 'checkRelatedData'])->name('admin.wakel.check');
+        });
+
+        //SISWAPERKELAS
+        Route::prefix('admin/datamaster/siswaperkelas')->group(function () {
+            Route::get('/{id}/tambahsiswaperkelas', [SiswaPerKelasController::class, 'create'])->name('admin.siswaperkelas.create');
+            Route::post('/', [SiswaPerKelasController::class, 'store'])->name('admin.siswaperkelas.store');
+            Route::get('/{nis}/edit', [SiswaPerKelasController::class, 'edit'])->name('admin.siswaperkelas.edit');
+            Route::put('/{nis}', [SiswaPerKelasController::class, 'update'])->name('admin.siswaperkelas.update');
+            Route::delete('/{nis}{kelas_id}', [SiswaPerKelasController::class, 'destroy'])->name('admin.siswaperkelas.destroy');
+            Route::post('/import', [SiswaPerKelasController::class, 'import'])->name('admin.siswa.import');
+            Route::get('/{kelas_id}/getsiswaperkelas', [SiswaPerKelasController::class, 'getsiswaperkelas'])->name('admin.siswaperkelas.getsiswaperkelas');
+        });
+
+        // PEMBELAJARAN
+        Route::prefix('admin/datamaster/pembelajaran')->group(function () {
+            Route::get('/', [PembelajaranController::class, 'index'])->name('admin.pembelajaran.index');
+            Route::post('/', [PembelajaranController::class, 'store'])->name('admin.pembelajaran.store');
+            Route::put('/{pembelajaran}', [PembelajaranController::class, 'update'])->name('admin.pembelajaran.update');
+            Route::delete('/{pembelajaran}', [PembelajaranController::class, 'destroy'])->name('admin.pembelajaran.destroy');
+            Route::get('/mapel/{thajaran_id}', [PembelajaranController::class, 'getMapel']);
+            Route::get('/getKelasByThajaran/{thajaran_id}', [SiswaController::class, 'getKelasByThajaran']);
+            Route::get('/getWakel/{kelas_id}', [SiswaController::class, 'getWakel']);
         });
 
         // SISWA
@@ -107,30 +133,7 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('/getKelasByThajaran/{thajaran_id}', [SiswaController::class, 'getKelasByThajaran']);
             Route::get('/getWakel/{kelas_id}', [SiswaController::class, 'getWakel']);
-        });
 
-        //SISWAPERKELAS
-        Route::prefix('admin/datamaster/siswaperkelas')->group(function () {
-            Route::get('/{id}', [SiswaPerKelasController::class, 'index'])->name('admin.siswaperkelas.index');
-            Route::get('/{id}/tambahsiswaperkelas', [SiswaPerKelasController::class, 'create'])->name('admin.siswaperkelas.create');
-            Route::post('/', [SiswaPerKelasController::class, 'store'])->name('admin.siswaperkelas.store');
-            Route::get('/{nis}/edit', [SiswaPerKelasController::class, 'edit'])->name('admin.siswaperkelas.edit');
-            Route::put('/{nis}', [SiswaPerKelasController::class, 'update'])->name('admin.siswaperkelas.update');
-            Route::delete('/{nis}{kelas_id}', [SiswaPerKelasController::class, 'destroy'])->name('admin.siswaperkelas.destroy');
-            Route::post('/import', [SiswaPerKelasController::class, 'import'])->name('admin.siswa.import');
-            Route::get('/{kelas_id}/getsiswaperkelas', [SiswaPerKelasController::class, 'getsiswaperkelas'])->name('admin.siswaperkelas.getsiswaperkelas');
-            Route::get('/getWakel/{kelas_id}', [SiswaController::class, 'getWakel']);
-        });
-
-        // PEMBELAJARAN
-        Route::prefix('admin/datamaster/pembelajaran')->group(function () {
-            Route::get('/', [PembelajaranController::class, 'index'])->name('admin.pembelajaran.index');
-            Route::post('/', [PembelajaranController::class, 'store'])->name('admin.pembelajaran.store');
-            Route::put('/{pembelajaran}', [PembelajaranController::class, 'update'])->name('admin.pembelajaran.update');
-            Route::delete('/{pembelajaran}', [PembelajaranController::class, 'destroy'])->name('admin.pembelajaran.destroy');
-            Route::get('/mapel/{thajaran_id}', [PembelajaranController::class, 'getMapel']);
-            Route::get('/getKelasByThajaran/{thajaran_id}', [SiswaController::class, 'getKelasByThajaran']);
-            Route::get('/getWakel/{kelas_id}', [SiswaController::class, 'getWakel']);
         });
 
         //RESULT

@@ -4,10 +4,12 @@
 
 <div class="container-fluid py-0 mt-4">
 
+    <!-- Button trigger modal -->
     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#tambahpembelajaran">
         Tambah Pembelajaran
     </button>
 
+    <!-- Modal Tambah Kelas -->
     <form method="POST" action="{{ route('admin.pembelajaran.store') }}">
         @csrf
         <div class="modal fade" id="tambahpembelajaran" tabindex="-1" aria-labelledby="tambahpembelajaranLabel" aria-hidden="true">
@@ -62,12 +64,11 @@
         </div>
     </form>
 
-
     <div class="row mt-3">
         <div class="container-fluid py-4">
             <div class="card shadow-lg">
                 <div class="card-body">
-                    <h5 class="font-weight-bold">DAFTAR PEMBELAJARAN</h5>
+                <h5 class="font-weight-bolder">DATA PEMBELAJARAN</h5>
                     <div class="table-responsive mt-3">
                         <table id="daftarpembelajaran" class="table table-striped table-bordered">
                             <thead>
@@ -98,7 +99,7 @@
                                             <div class="d-flex align-items-center">
                                                 <!-- Button Edit -->
                                                 <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editpembelajaran{{ $x->id }}">
-                                                    <i class="bi bi-pencil-square"></i>
+                                                    <i class="bi bi-pencil"></i>
                                                 </button>
 
                                                 <!-- Modal Edit -->
@@ -139,14 +140,24 @@
                                                                         </select>
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="id_guru{{ $x->id }}" class="form-label">Tahun Ajaran:</label>
+                                                                        <label for="id_guru{{ $x->id }}" class="form-label">Nama Guru:</label>
                                                                         <select class="form-select" id="id_guru{{ $x->id }}" name="id_guru" required>
                                                                             @foreach ($guru as $g)
-                                                                                <option value="{{ $g->id }}" {{ $x->id_guru == $g->id ? 'selected' : '' }}>>{{ $g->username }}</option>
+                                                                                <option value="{{ $g->id }}" {{ $x->id_guru == $g->id ? 'selected' : '' }}>{{ $g->username }}</option>
                                                                             @endforeach
                                                                             </option>
                                                                         </select>
                                                                     </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="thajaran_id" class="form-label">Tahun Ajaran:</label>
+                                                                        <select class="form-control" id="thajaran_id" name="thajaran_id" readonly>
+                                                                            <option value="{{ $thajaran->id }}">{{ $thajaran->thajaran }} - {{ $thajaran->semesterLabel }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3 form-check">
+                                                                            <input type="checkbox" class="form-check-input" id="checkEditConfirmation{{ $x->id }}" required>
+                                                                            <label class="form-check-label" for="checkEditConfirmation{{ $x->id }}">Saya telah memeriksa dan mengonfirmasi perubahan ini.</label>
+                                                                        </div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -183,60 +194,24 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.tombolHapus').forEach(function(button) {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
+    $(document).ready(function() {
+        $('#daftarpembelajaran').DataTable();
 
-                var form = button.closest('.delete-form');
-                var wakelId = form.getAttribute('data-id');
-
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: 'Anda tidak akan dapat mengembalikan data ini!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        fetch(form.action, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                            },
-                            body: JSON.stringify({ _method: 'DELETE' })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                Swal.fire(
-                                    'Dihapus!',
-                                    data.message,
-                                    'success'
-                                ).then(() => {
-                                    window.location.reload();
-                                });
-                            } else {
-                                Swal.fire(
-                                    'Gagal!',
-                                    data.error,
-                                    'error'
-                                );
-                            }
-                        })
-                        .catch(() => {
-                            Swal.fire(
-                                'Gagal!',
-                                'Terjadi kesalahan saat menghubungi server.',
-                                'error'
-                            );
-                        });
-                    }
-                });
+        $('.tombolHapus').click(function(e) {
+            e.preventDefault();
+            var form = $('#deleteForm' + $(this).data('id'));
+            Swal.fire({
+                title: 'Apakah Anda Yakin?',
+                text: 'Data ini akan dihapus!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
             });
         });
     });

@@ -55,9 +55,12 @@ class Siswa extends Model
     public static $rules = [
         'nis' => 'required|unique:siswa,nis',
         'nama_siswa' => 'required|string|max:255',
-        'jns_kelamin' => 'required|in:L,P',
+        'jns_kelamin' => 'required|in:Laki-laki,Perempuan',
         'kelas_id' => 'required|exists:kelas,id',
         'status' => 'required|in:Aktif,NonAktif',
+        'nama_ortu' => 'nullable|string|max:255',
+        'nohp_ortu' => 'nullable|string|max:15',
+        'alamat' => 'nullable|string',
     ];
 
     public static $messages = [

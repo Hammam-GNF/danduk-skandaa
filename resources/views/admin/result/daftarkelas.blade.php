@@ -15,7 +15,7 @@
         <div class="container-fluid py-4">
             <div class="card shadow-lg">
                 <div class="card-body">
-                    <h5 class="font-weight-bold">REKAP HASIL PEMBELAJARAN</h5>
+                    <h5 class="font-weight-bolder">REKAP HASIL PEMBELAJARAN</h5>
                     <div class="table-responsive mt-3">
                         @if($kelas->isEmpty() && $wakel->isEmpty() && $siswa->isEmpty())
                             <p>Data tidak tersedia. Pastikan data kelas, wali kelas, dan siswa sudah ada.</p>
@@ -26,7 +26,7 @@
                                         <th class="text-center">No</th>
                                         <th>Nama Kelas</th>
                                         <th>Nama Wali Kelas</th>
-                                        <th>Aksi</th>
+                                        <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,9 +41,9 @@
                                                     Kelas belum mempunyai wali kelas
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 <form action="{{ route('admin.result.rekap.presensi', ['id' => $w->kelas_id]) }}" method="GET" class="d-inline" title="Detail Presensi">
-                                                    <button type="submit" class="btn btn-info btn-sm">
+                                                    <button type="submit" class="btn btn-primary btn-sm">
                                                         <i class="bi bi-calendar-check"></i>
                                                     </button>
                                                 </form>
