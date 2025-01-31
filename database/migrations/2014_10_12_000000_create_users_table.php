@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedInteger('role_id');
             $table->enum('jns_kelamin', ['Laki-laki', 'Perempuan']);
             $table->bigInteger('nip');
-            $table->bigInteger('no_hp');
+            $table->string('no_hp');
             $table->string('username', 70)->unique();
             $table->string('password', 255);
             $table->timestamps();
