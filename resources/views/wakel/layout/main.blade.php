@@ -15,19 +15,20 @@
     <link href="{{ asset('/') }}css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('/') }}css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.1/font/bootstrap-icons.min.css">
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap4.min.css">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap4.min.css">
+    <!-- DataTables JS -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
@@ -49,14 +50,11 @@
     <script src="{{ asset('/') }}js/core/bootstrap.min.js"></script>
     <script src="{{ asset('/') }}js/plugins/perfect-scrollbar.min.js"></script>
     <script src="{{ asset('/') }}js/plugins/smooth-scrollbar.min.js"></script>
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
 
     <!-- Initialize DataTables -->
     <script>
         $(document).ready(function() {
-            $('#daftarwakel, #daftarjurusan, #daftarthajaran, #daftarsiswa, #kelasx, #kelasxi, #kelasxii, #daftarmapel, #presensi, #daftarkelolapresensi, #daftarkelola').DataTable();
+            $('#daftarwakel, #daftarjurusan, #daftarthajaran, #daftarsiswa, #kelasx, #kelasxi, #kelasxii, #daftarmapel, #presensi, #daftarkelolapresensi, #daftarkelola, #daftarSiswa').DataTable();
         });
     </script>
 
