@@ -22,11 +22,14 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap4.min.css">
-    <!-- DataTables JS -->
-<script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- PerfectScrollbar -->
+    <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@1.5.0/dist/perfect-scrollbar.min.js"></script>
+    <script src="{{ asset('js/argon-dashboard.min.js') }}"></script>
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
@@ -53,9 +56,9 @@
     <!-- Initialize DataTables -->
 
     <script>
-    $(document).ready(function() {
-        $('#daftarwakel, #daftarjurusan, #daftarthajaran, #daftarsiswa, #kelasx, #kelasxi, #kelasxii, #daftarmapel, #presensi, #daftarkelolapresensi, #daftarkelola').DataTable();
-    });
+        $(document).ready(function() {
+            $('#daftarwakel, #daftarjurusan, #daftarthajaran, #daftarsiswa, #kelasx, #kelasxi, #kelasxii, #daftarmapel, #presensi, #daftarkelolapresensi, #daftarkelola').DataTable();
+        });
     </script>
 
 
