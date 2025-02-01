@@ -16,7 +16,6 @@ return new class extends Migration
 
             $table->string('kode_jurusan', 255);
             $table->char('nama_jurusan', 100);
-            $table->rememberToken();
             $table->timestamps();
 
         });

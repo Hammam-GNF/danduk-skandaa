@@ -16,9 +16,19 @@ class WakelFactory extends Factory
 
     public function definition()
     {
+        $user = User::where('role_id', 3)
+        ->whereNotIn('id', Wakel::pluck('user_id')->toArray())
+        ->inRandomOrder()
+        ->first();
+
+
+        $kelas = Kelas::whereDoesntHave('wakel')
+            ->inRandomOrder()
+            ->first();
+
         return [
-            'user_id' => User::inRandomOrder()->first()->id,
-            'kelas_id' => Kelas::inRandomOrder()->first()->id,
+            'user_id' => $user?->id,
+            'kelas_id' => $kelas->id,
         ];
     }
 }

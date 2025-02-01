@@ -14,10 +14,15 @@ class TahunAjaranFactory extends Factory
 
     public function definition()
     {
+        $startYear = 2020;
+        $currentYear = now()->year;
+
+        $thajaran = $startYear . '/' . ($startYear + 1);
+        
         return [
-            'thajaran' => $this->faker->year() . '/' . ($this->faker->year() + 1), 
+            'thajaran' => $thajaran,
             'semester' => $this->faker->randomElement(['Ganjil', 'Genap']),
-            'status' => 'nonaktif', 
+            'status' => 'nonaktif',
         ];
     }
 

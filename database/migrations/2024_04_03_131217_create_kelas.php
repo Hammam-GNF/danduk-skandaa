@@ -19,7 +19,6 @@ return new class extends Migration
             
             $table->string('kelas_tingkat', 10);
             $table->integer('rombel');
-            $table->rememberToken();
             $table->timestamps();
             
             $table->foreign('jurusan_id')->references('id')->on('jurusan')->onUpdate('cascade')->onDelete('restrict');

@@ -17,12 +17,14 @@ return new class extends Migration
             //foreign
             $table->unsignedInteger('thajaran_id');
             $table->unsignedInteger('id_guru');
+            $table->unsignedInteger('wakel_id');
             $table->unsignedInteger('kelas_id');
             $table->unsignedInteger('mapel_id');
             $table->timestamps();
 
             $table->foreign('thajaran_id')->references('id')->on('tahunajaran')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('id_guru')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('wakel_id')->references('id')->on('wakel')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('kelas_id')->references('id')->on('kelas')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('mapel_id')->references('id')->on('mapel')->onUpdate('cascade')->onDelete('restrict');
         });

@@ -11,9 +11,21 @@ class JurusanFactory extends Factory
 
     public function definition(): array
     {
+
+        $jurusanList = [
+            'Teknik Komputer dan Jaringan' => 'TKJ',
+            'Rekayasa Perangkat Lunak' => 'RPL',
+            'Multimedia' => 'MM',
+            'Akuntansi' => 'AK',
+            'Bisnis Daring dan Pemasaran' => 'BDP',
+        ];
+
+        $namaJurusan = $this->faker->randomElement(array_keys($jurusanList));
+        $kodeJurusan = $jurusanList[$namaJurusan];
+
         return [
-            'kode_jurusan' => $this->faker->unique()->lexify('JRSN???'),
-            'nama_jurusan' => $this->faker->words(3, true),
+            'kode_jurusan' => $kodeJurusan,
+            'nama_jurusan' => $namaJurusan,
         ];
     }
 }

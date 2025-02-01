@@ -16,10 +16,14 @@ class SiswaFactory extends Factory
 
     public function definition(): array
     {
+        $tahunAjaranAktif = TahunAjaran::where('status', 'aktif')->inRandomOrder()->first();
+
+        $kelas = Kelas::inRandomOrder()->first();
+
         return [
             'nis' => $this->faker->unique()->numerify('############'),
-            'thajaran_id' => TahunAjaran::all()->random()->id,
-            'kelas_id' => Kelas::all()->random()->id,
+            'thajaran_id' => $tahunAjaranAktif->id,
+            'kelas_id' => $kelas->id,
             'nama_siswa' => $this->faker->name(),
             'jns_kelamin' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
             'status' => $this->faker->randomElement(['Aktif', 'Nonaktif']),

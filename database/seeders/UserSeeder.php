@@ -21,6 +21,13 @@ class UserSeeder extends Seeder
             'nip' => '210302080',
             'no_hp' => '081234567890'
         ]);
-        User::factory(12)->create();
+        User::create([
+            'username' => 'joko',
+            'password' => Hash::make('joko'),
+            'role_id' => 2,
+            'jns_kelamin' => 'Laki-laki',
+            'nip' => '123456789',
+            'no_hp' => '08987456123'
+        ]);
     }
 }

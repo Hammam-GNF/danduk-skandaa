@@ -15,10 +15,33 @@ class KelasFactory extends Factory
 
     public function definition(): array
     {
+
+        $jurusanIds = Jurusan::pluck('id')->toArray();
+        $kelasTingkat = ['X', 'XI', 'XII'];
+        $rombelMax = 4;
+
+        $jurusanId = $this->faker->randomElement($jurusanIds);
+        $tingkatKelas = $this->faker->randomElement($kelasTingkat);
+        $rombel = $this->faker->numberBetween(1, $rombelMax);
+
+        $tingkatKelas = $this->faker->randomElement($kelasTingkat);
+        $rombel = $this->faker->numberBetween(1, $rombelMax);
+
+        while (Kelas::where('jurusan_id', $jurusanId)
+            ->where('kelas_tingkat', $tingkatKelas)
+            ->where('rombel', $rombel)
+            ->exists()
+        ) {
+            // Jika kombinasi sudah ada, pilih ulang jurusan, tingkat kelas, dan rombel
+            $jurusanId = $this->faker->randomElement($jurusanIds);
+            $tingkatKelas = $this->faker->randomElement($kelasTingkat);
+            $rombel = $this->faker->numberBetween(1, $rombelMax);
+        }
+
         return [
-            'jurusan_id' => Jurusan::factory(),
-            'kelas_tingkat' => $this->faker->randomElement(['X', 'XI', 'XII']),
-            'rombel' => $this->faker->randomNumber(2, true),
+            'jurusan_id' => $jurusanId,
+            'kelas_tingkat' => $tingkatKelas,
+            'rombel' => $rombel,
         ];
     }
 }
