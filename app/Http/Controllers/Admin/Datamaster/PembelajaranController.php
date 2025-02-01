@@ -28,7 +28,8 @@ class PembelajaranController extends Controller
         $mapel = Mapel::all();
         $kelas = Kelas::with('jurusan')->get();
         $guru = User::whereIn('role_id', [3, 4])->get();
-        $thajaran = TahunAjaran::where('status', 'aktif')->first();
+        $wakel = Wakel::with('user')->get();
+        $thajaran = $this->getTahunAjaranAktif();
         if (!$thajaran) {
             $thajaran = (object)[
                 'id' => null,
@@ -37,7 +38,7 @@ class PembelajaranController extends Controller
             ];
         }
 
-        return view('admin.datamaster.pembelajaran', compact('pembelajaran', 'mapel', 'kelas', 'guru', 'thajaran'));
+        return view('admin.datamaster.pembelajaran', compact('pembelajaran', 'mapel', 'kelas', 'guru', 'thajaran', 'wakel'));
     }
 
     public function getMapel($thajaran_id)
@@ -57,8 +58,11 @@ class PembelajaranController extends Controller
                 ->withInput();
         }
 
+        $wakel = Wakel::where('kelas_id', $request->input('kelas_id'))->first();
+
         $pembelajaran = new Pembelajaran();
         $pembelajaran->id_guru = $request->input('id_guru');
+        $pembelajaran->wakel_id = $wakel->id;
         $pembelajaran->thajaran_id = $request->input('thajaran_id');
         $pembelajaran->kelas_id = $request->input('kelas_id');
         $pembelajaran->mapel_id = $request->input('mapel_id');
