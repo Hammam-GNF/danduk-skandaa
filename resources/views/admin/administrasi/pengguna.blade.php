@@ -87,96 +87,96 @@
                             </thead>
                             <tbody>
                                 @foreach ($users as $user)
-                                    <tr>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $user->role->level }}</td>
-                                        <td>{{ $user->username }}</td>
-                                        <td>{{ $user->nip }}</td>
-                                        <td>{{ $user->jns_kelamin }}</td>
-                                        <td>{{ $user->no_hp }}</td>
-                                        <td style="display: flex; align-items: center; justify-content: center;">
-                                            <button type="button" class="btn btn-primary btn-sm me-2"
-                                                data-bs-toggle="modal" data-bs-target="#editPengguna{{ $user->id }}">
-                                                <i class="bi bi-pencil-square"></i>
+                                <tr>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td>{{ $user->role->level }}</td>
+                                    <td>{{ $user->username }}</td>
+                                    <td>{{ $user->nip }}</td>
+                                    <td>{{ $user->jns_kelamin }}</td>
+                                    <td>{{ $user->no_hp }}</td>
+                                    <td style="display: flex; align-items: center; justify-content: center;">
+                                        <button type="button" class="btn btn-primary btn-sm me-2"
+                                            data-bs-toggle="modal" data-bs-target="#editPengguna{{ $user->id }}">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+
+                                        <!-- Form Delete -->
+                                        <form action="{{ route('admin.pengguna.destroy', $user->id) }}" method="POST" class="delete-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-danger btn-sm deleteButton">
+                                                <i class="bi bi-trash"></i>
                                             </button>
-
-                                            <!-- Modal Edit Pengguna -->
-                                            <div class="modal fade" id="editPengguna{{ $user->id }}" tabindex="-1" aria-labelledby="editPenggunaLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="editPenggunaLabel">Edit Pengguna</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <form method="POST" action="{{ route('admin.pengguna.update', $user->id) }}">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <div class="modal-body">
-                                                                <div class="mb-3">
-                                                                    <label for="edit_role_id" class="form-label">Role:</label>
-                                                                    <select class="form-select" id="edit_role_id" name="role_id" required>
-                                                                        <option value="">--Pilih Role--</option>
-                                                                        @foreach($wakel as $w)
-                                                                            <option value="{{ $w->id }}" {{ $w->id == $user->role_id ? 'selected' : '' }}>
-                                                                                {{ $w->level }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="edit_jns_kelamin" class="form-label">Jenis Kelamin:</label>
-                                                                    <select class="form-select" id="edit_jns_kelamin" name="jns_kelamin" required>
-                                                                        <option value="" selected disabled hidden>--Pilih Jenis Kelamin--</option>
-                                                                        <option value="Laki-laki" {{ $user->jns_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                                                                        <option value="Perempuan" {{ $user->jns_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="edit_nip" class="form-label">NIP:</label>
-                                                                    <input type="number" class="form-control" id="edit_nip" name="nip" value="{{ $user->nip }}" min="0" required>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="edit_no_hp" class="form-label">No HP:</label>
-                                                                    <input type="number" class="form-control" id="edit_no_hp" name="no_hp" value="{{ $user->no_hp }}" min="0" required>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="edit_username" class="form-label">Nama Lengkap (Username):</label>
-                                                                    <input type="text" class="form-control" id="edit_username" name="username" value="{{ $user->username }}" required>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="edit_password" class="form-label">Password Baru:</label>
-                                                                    <input type="password" class="form-control" id="edit_password" name="password" placeholder="masukkan password baru">
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="edit_password_confirmation" class="form-label">Konfirmasi Password:</label>
-                                                                    <input type="password" class="form-control" id="edit_password_confirmation" name="password_confirmation">
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                <button type="submit" class="btn btn-success">Save changes</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Form Delete -->
-                                            <form action="{{ route('admin.pengguna.destroy', $user->id) }}" method="POST" class="delete-form">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="btn btn-danger btn-sm deleteButton">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                        </form>
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Pengguna -->
+<div class="modal fade" id="editPengguna{{ $user->id }}" tabindex="-1" aria-labelledby="editPenggunaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPenggunaLabel">Edit Pengguna</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="{{ route('admin.pengguna.update', $user->id) }}">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit_role_id" class="form-label">Role:</label>
+                        <select class="form-select" id="edit_role_id" name="role_id" required>
+                            <option value="">--Pilih Role--</option>
+                            @foreach($wakel as $w)
+                            <option value="{{ $w->id }}" {{ $w->id == $user->role_id ? 'selected' : '' }}>
+                                {{ $w->level }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_jns_kelamin" class="form-label">Jenis Kelamin:</label>
+                        <select class="form-select" id="edit_jns_kelamin" name="jns_kelamin" required>
+                            <option value="" selected disabled hidden>--Pilih Jenis Kelamin--</option>
+                            <option value="Laki-laki" {{ $user->jns_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="Perempuan" {{ $user->jns_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_nip" class="form-label">NIP:</label>
+                        <input type="number" class="form-control" id="edit_nip" name="nip" value="{{ $user->nip }}" min="0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_no_hp" class="form-label">No HP:</label>
+                        <input type="number" class="form-control" id="edit_no_hp" name="no_hp" value="{{ $user->no_hp }}" min="0" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_username" class="form-label">Nama Lengkap (Username):</label>
+                        <input type="text" class="form-control" id="edit_username" name="username" value="{{ $user->username }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_password" class="form-label">Password Baru:</label>
+                        <input type="password" class="form-control" id="edit_password" name="password" placeholder="masukkan password baru">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_password_confirmation" class="form-label">Konfirmasi Password:</label>
+                        <input type="password" class="form-control" id="edit_password_confirmation" name="password_confirmation">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -197,37 +197,37 @@
                 if (result.isConfirmed) {
                     const form = this.closest('form');
                     fetch(form.action, {
-                        method: 'DELETE',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                            'Content-Type': 'application/json',
-                        },
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            Swal.fire(
-                                'Dihapus!',
-                                data.message,
-                                'success'
-                            ).then(() => {
-                                location.reload();
-                            });
-                        } else {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                Swal.fire(
+                                    'Dihapus!',
+                                    data.message,
+                                    'success'
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Gagal!',
+                                    data.message,
+                                    'error'
+                                );
+                            }
+                        })
+                        .catch(error => {
                             Swal.fire(
                                 'Gagal!',
-                                data.message,
+                                'Terjadi kesalahan saat menghapus data.',
                                 'error'
                             );
-                        }
-                    })
-                    .catch(error => {
-                        Swal.fire(
-                            'Gagal!',
-                            'Terjadi kesalahan saat menghapus data.',
-                            'error'
-                        );
-                    });
+                        });
                 }
             });
         });
