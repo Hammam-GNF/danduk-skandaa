@@ -24,7 +24,7 @@ class WakelController extends Controller
         $guru = User::where('role_id', '4')->get();
         $user = User::where('role_id', '!=', 1)->get();
         $wakel = Wakel::with('user', 'kelas.jurusan')->get();
-        $kelas = Kelas::with('jurusan')->get();
+        $kelas = Kelas::doesntHave('wakel')->with('jurusan')->get();
 
         return view('admin.administrasi.wakel', compact('user', 'guru', 'wakel', 'kelas'));
     }
