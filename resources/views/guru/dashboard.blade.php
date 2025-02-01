@@ -75,5 +75,4 @@
         }
     </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <script src="{{ asset('js/argon-dashboard.min.js?v=2.0.4') }}"></script>
 @endsection
