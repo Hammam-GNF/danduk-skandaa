@@ -42,36 +42,32 @@ class TampilanAdminController extends Controller
 
         $wakel = Wakel::whereIn('id', $kelas->pluck('wakel.id')->filter()->toArray())->get();
 
-        return view('admin.result.daftarkelas', compact('pembelajaran'));
+        return view('admin.result.daftarkelas', compact('pembelajaran', 'wakel', 'kelas', 'siswa'));
     }
 
 
     public function rekapPresensi($id)
     {
-        $thajaran = $this->getTahunAjaranAktif();
-        $pembelajaran = Pembelajaran::find($id);
-        $presensi = Presensi::where('kelas_id', $pembelajaran->kelas_id)->get();
-        $kelas = $pembelajaran->kelas;
+        $thajaran = TahunAjaran::where('status', 'aktif')->first();
+        $presensi = Presensi::where('kelas_id', $id)->get();
 
         $presensiPertama = $presensi->first();
 
-        $kelasTitle = $kelas ? $kelas->kelas_tingkat . ' - ' . $kelas->jurusan->kode_jurusan . ' - ' . $kelas->rombel : 'Data Tidak Ditemukan';
-
-        return view('admin.result.rekappresensi', compact('thajaran', 'presensi', 'kelas', 'kelasTitle'));
+        $kelas = $presensiPertama ? $presensiPertama->kelas : null;
+        
+        return view('admin.result.rekappresensi', compact('thajaran', 'presensi', 'kelas'));
     }
 
     public function rekapNilai($id)
     {
-        $thajaran = $this->getTahunAjaranAktif();
-        $pembelajaran = Pembelajaran::find($id);
-        $nilai = Nilai::where('kelas_id', $pembelajaran->kelas_id)->get();
-        $kelas = $pembelajaran->kelas;
+        $thajaran = TahunAjaran::where('status', 'aktif')->first();
+        $nilai = Nilai::where('kelas_id', $id)->get();
 
         $nilaiPertama = $nilai->first();
 
-        $kelasTitle = $kelas ? $kelas->kelas_tingkat . ' - ' . $kelas->jurusan->kode_jurusan . ' - ' . $kelas->rombel : 'Data Tidak Ditemukan';
+        $kelas = $nilaiPertama ? $nilaiPertama->kelas : null;
         
-        return view('admin.result.rekapnilai', compact('thajaran', 'nilai', 'kelas', 'kelasTitle'));
+        return view('admin.result.rekapnilai', compact('thajaran', 'nilai', 'kelas'));
     }
 
 
